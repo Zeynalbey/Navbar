@@ -1073,7 +1073,6 @@
     <None Include="wwwroot\client\assets\fonts\fa-solid-900.woff2" />
     <None Include="wwwroot\client\assets\fonts\Ionicons28b5.svg" />
     <None Include="wwwroot\client\assets\fonts\Material-Design-Iconic-Fontd1f1.woff2" />
-    <None Include="wwwroot\client\assets\js\ajax-mail.js" />
     <None Include="wwwroot\client\assets\js\custom.js" />
     <None Include="wwwroot\client\assets\js\plugins.js" />
   </ItemGroup>
