@@ -15,14 +15,14 @@ namespace DemoApplication.Controllers.Admin
         private readonly DataContext _dataContext;
         public SubNavbarController(DataContext dataContext)
         {
-            _dataContext = dataContext; 
+            _dataContext = dataContext;
         }
 
-        [HttpGet("list",Name ="Subnavbar-list")]
+        [HttpGet("list", Name = "Subnavbar-list")]
         public IActionResult List()
-        
+
         {
-            var model = _dataContext.SubNavbars.Select(s => new SubNavbarListViewModel(s.Id, s.Navbar.Name, s.Name, s.ToUrl,s.Row)).ToList();
+            var model = _dataContext.SubNavbars.Select(s => new SubNavbarListViewModel(s.Id, s.Navbar.Name, s.Name, s.ToUrl, s.Row)).ToList();
 
             return View("~/Views/Admin/Subnavbar/List.cshtml", model);
         }
@@ -35,7 +35,7 @@ namespace DemoApplication.Controllers.Admin
             var model = new ViewModels.Admin.Subnavbar.AddviewModel
             {
                 Navbars = _dataContext.Navbars
-                    .Select(n => new NavbarListViewModel(n.Id,n.Name, n.IsMain, n.IsHeader,n.IsFooter))
+                    .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter,n.Row))
                     .ToList(),
             };
 
@@ -71,10 +71,10 @@ namespace DemoApplication.Controllers.Admin
             IActionResult GetView(ViewModels.Admin.Subnavbar.AddviewModel model)
             {
                 model.Navbars = _dataContext.Navbars
-                    .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter ))
+                    .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter,n.Row))
                     .ToList();
 
-               
+
 
                 return View("~/Views/Admin/Subnavbar/Add.cshtml", model);
             }
@@ -112,7 +112,7 @@ namespace DemoApplication.Controllers.Admin
                 return NotFound();
             }
 
-        var model = new AddviewModel
+            var model = new AddviewModel
             {
                 Id = subnavbar.Id,
                 Name = subnavbar.Name,
@@ -120,8 +120,8 @@ namespace DemoApplication.Controllers.Admin
                 NavbarId = subnavbar.NavbarId,
                 Row = subnavbar.Row,
                 Navbars =
-                _dataContext.Navbars
-                    .Select(n => new NavbarListViewModel(n.Id,n.Name,n.IsMain,n.IsHeader,n.IsFooter)).ToList()
+                    _dataContext.Navbars
+                        .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter, n.Row)).ToList()
             };
 
             return View("~/Views/Admin/Subnavbar/Update.cshtml", model);
@@ -149,17 +149,17 @@ namespace DemoApplication.Controllers.Admin
 
 
 
-             UpdateSubNavbarAsync();
+            UpdateSubNavbarAsync();
 
             return RedirectToRoute("subnavbar-list");
 
             IActionResult GetView(AddviewModel model)
             {
                 model.Navbars = _dataContext.Navbars
-                    .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter))
+                    .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter, n.Row))
                     .ToList();
 
-            
+
 
                 return View("~/Views/Admin/Subnavbar/Add.cshtml", model);
             }
@@ -173,7 +173,7 @@ namespace DemoApplication.Controllers.Admin
 
                 _dataContext.SubNavbars.Add(subnavbar);
 
-                 _dataContext.SaveChanges();
+                _dataContext.SaveChanges();
             }
         }
 

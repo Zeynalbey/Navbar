@@ -10,8 +10,5 @@ namespace DemoApplication.Database.Models
         public bool IsHeader { get; set; }
         public bool IsFooter { get; set; }
         public List<SubNavbar> SubNavbars { get; set; }
-
-
-
     }
 }

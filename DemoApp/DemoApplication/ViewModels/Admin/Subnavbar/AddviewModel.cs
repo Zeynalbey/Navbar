@@ -6,8 +6,6 @@ namespace DemoApplication.ViewModels.Admin.Subnavbar
 {
     public class AddviewModel
     {
-
-
         public int? Id { get; set; }
 
         public string? Name { get; set; }

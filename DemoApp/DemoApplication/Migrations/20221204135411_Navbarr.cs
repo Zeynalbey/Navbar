@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DemoApplication.Migrations
 {
-    public partial class Navbar_SubNavbar_one2many : Migration
+    public partial class Navbarr : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -111,8 +111,8 @@ namespace DemoApplication.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Row = table.Column<int>(type: "int", nullable: false),
                     ToUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Row = table.Column<int>(type: "int", nullable: false),
                     NavbarId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

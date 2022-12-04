@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoApplication.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221203150856_Navbar_SubNavbar_one2many")]
-    partial class Navbar_SubNavbar_one2many
+    [Migration("20221204135411_Navbarr")]
+    partial class Navbarr
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
