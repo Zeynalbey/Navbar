@@ -3,6 +3,7 @@ using DemoApplication.Database.Models;
 
 using DemoApplication.ViewModels.Admin.Navbar;
 using DemoApplication.ViewModels.Admin.Subnavbar;
+using DemoApplication.ViewModels.Admin.SubNavbar;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
@@ -34,9 +35,7 @@ namespace DemoApplication.Controllers.Admin
         {
             var model = new ViewModels.Admin.Subnavbar.AddviewModel
             {
-                Navbars = _dataContext.Navbars
-                    .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter,n.Row))
-                    .ToList(),
+                Navbars = _dataContext.Navbars.Select(n => new SubNavbarViewModel(n.Id, n.Name)).ToList()
             };
 
             return View("~/Views/Admin/Subnavbar/Add.cshtml", model);
@@ -47,57 +46,19 @@ namespace DemoApplication.Controllers.Admin
         [HttpPost("add", Name = "subnavbar-add")]
         public IActionResult Add(ViewModels.Admin.Subnavbar.AddviewModel model)
         {
-            if (!ModelState.IsValid)
+            var subnavbar = new SubNavbar
             {
-                return GetView(model);
-            }
+                Name = model.Name,
+                NavbarId = model.NavbarId,
+                ToUrl = model.ToUrl,
+                Row = model.Row
+            };
 
-            if (!_dataContext.Navbars.Any(a => a.Id == model.NavbarId))
-            {
-                ModelState.AddModelError(String.Empty, "Navbar is not found");
-                return GetView(model);
-            }
-
-
-
-
-            AddSubNavbar();
+            _dataContext.SubNavbars.Add(subnavbar);
+            _dataContext.SaveChanges();
 
             return RedirectToRoute("Subnavbar-list");
-
-
-
-
-            IActionResult GetView(ViewModels.Admin.Subnavbar.AddviewModel model)
-            {
-                model.Navbars = _dataContext.Navbars
-                    .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter,n.Row))
-                    .ToList();
-
-
-
-                return View("~/Views/Admin/Subnavbar/Add.cshtml", model);
-            }
-
-            void AddSubNavbar()
-            {
-                var subnavbar = new SubNavbar
-                {
-
-                    Name = model.Name,
-                    NavbarId = model.NavbarId,
-                    ToUrl = model.ToUrl,
-                    Row = model.Row
-                };
-
-                _dataContext.SubNavbars.Add(subnavbar);
-
-
-
-                _dataContext.SaveChanges();
-            }
         }
-
 
         #endregion
 
@@ -114,68 +75,43 @@ namespace DemoApplication.Controllers.Admin
 
             var model = new AddviewModel
             {
-                Id = subnavbar.Id,
+
                 Name = subnavbar.Name,
                 ToUrl = subnavbar.ToUrl,
                 NavbarId = subnavbar.NavbarId,
                 Row = subnavbar.Row,
                 Navbars =
                     _dataContext.Navbars
-                        .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter, n.Row)).ToList()
+                        .Select(n => new SubNavbarViewModel(n.Id, n.Name)).ToList()
             };
 
-            return View("~/Views/Admin/Subnavbar/Update.cshtml", model);
+            return RedirectToRoute("subnavbar-update");
         }
 
         [HttpPost("update/{id}", Name = "subnavbar-update")]
-        public async Task<IActionResult> UpdateAsync(AddviewModel model)
+        public IActionResult Update(UpdateViewModel model)
         {
-            var subnavbar = await _dataContext.SubNavbars.FirstOrDefaultAsync(b => b.Id == model.Id);
+            if (!ModelState.IsValid)
+            {
+
+                model.Navbar = _dataContext.Navbars.Select(s => new SubNavbarViewModel(s.Id, s.Name)).ToList();
+                return View("~/Views/Admin/Subnavbar/update.cshtml", model);
+            }
+            var subnavbar = _dataContext.SubNavbars.Include(n => n.Navbar).FirstOrDefault(s => s.Id == model.Id);
             if (subnavbar is null)
             {
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
-            {
-                return GetView(model);
-            }
+            subnavbar.Name = model.Name;
+            subnavbar.Row = model.Row;
+            subnavbar.ToUrl = model.ToUrl;
+            subnavbar.NavbarId = model.NavbarId;
 
-            if (!_dataContext.Navbars.Any(a => a.Id == model.NavbarId))
-            {
-                ModelState.AddModelError(String.Empty, "Navbar is not found");
-                return GetView(model);
-            }
-
-
-
-            UpdateSubNavbarAsync();
-
-            return RedirectToRoute("subnavbar-list");
-
-            IActionResult GetView(AddviewModel model)
-            {
-                model.Navbars = _dataContext.Navbars
-                    .Select(n => new NavbarListViewModel(n.Id, n.Name, n.IsMain, n.IsHeader, n.IsFooter, n.Row))
-                    .ToList();
-
-
-
-                return View("~/Views/Admin/Subnavbar/Add.cshtml", model);
-            }
-
-            async Task UpdateSubNavbarAsync()
-            {
-                subnavbar.Name = model.Name;
-                subnavbar.NavbarId = model.NavbarId;
-                subnavbar.ToUrl = model.ToUrl;
-                subnavbar.Row = model.Row;
-
-                _dataContext.SubNavbars.Add(subnavbar);
-
-                _dataContext.SaveChanges();
-            }
+            _dataContext.SaveChanges();
+            return RedirectToRoute("Subnavbar-list");
         }
+        
 
         #endregion
 
@@ -184,7 +120,7 @@ namespace DemoApplication.Controllers.Admin
         [HttpPost("delete/{id}", Name = "subnavbar-delete")]
         public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
-            var subnavbar = await _dataContext.SubNavbars.FirstOrDefaultAsync(b => b.Id == id);
+            var subnavbar = await _dataContext.SubNavbars.FirstOrDefaultAsync(s => s.Id == id);
             if (subnavbar is null)
             {
                 return NotFound();
@@ -193,7 +129,7 @@ namespace DemoApplication.Controllers.Admin
             _dataContext.SubNavbars.Remove(subnavbar);
             await _dataContext.SaveChangesAsync();
 
-            return RedirectToRoute("subnavbar-list");
+            return RedirectToRoute("Subnavbar-list");
         }
 
         #endregion

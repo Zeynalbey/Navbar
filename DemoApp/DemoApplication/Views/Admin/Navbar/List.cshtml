@@ -22,22 +22,29 @@
                 <table class="table table-striped mb-0">
                     <thead>
                         <tr>
-                            <th>Navbar</th>
-                            <th>SubNavbar</th>
+                            <th>Name</th>
+                            <th>IsMain</th>
+                            <th>Row</th>
+                            <th>IsHeader</th>
+                            <th>IsFooter</th>
                             <th class="text-end">Actions</th>
 
                         </tr>
                     </thead>
                     <tbody>
   
-                        @foreach (var subnavbar in Model)
+                        @foreach (var navbar in Model)
                         {
                             <tr>
-                                <td>@subnavbar.Name</td>
+                                <td>@navbar.Name</td>
+                                <td>@navbar.IsMain</td>
+                                <td>@navbar.Row</td>
+                                <td>@navbar.IsHeader</td>
+                                <td>@navbar.IsFooter</td>
                                 <td class="text-end">
-                                     <a asp-route="subnavbar-update" asp-route-id="@subnavbar.Id"><i class="las la-pen text-secondary font-16"></i></a>
-                                     <form method="POST" asp-route="subnavbar-delete" asp-route-id="@subnavbar.Id" id="subnavbar-form-@subnavbar.Id" ></form>
-                                     <button type="submit" form="subnavbar-form-@subnavbar.Id">
+                                    <a asp-route="navbar-update" asp-route-id="@navbar.Id"><i class="las la-pen text-secondary font-16"></i></a>
+                                     <form method="POST" asp-route="navbar-delete" asp-route-id="@navbar.Id" id="navbar-form-@navbar.Id" ></form>
+                                     <button type="submit" form="navbar-form-@navbar.Id">
                                         <i class="las la-trash-alt text-secondary font-16"></i>
                                     </button>
                                 </td>

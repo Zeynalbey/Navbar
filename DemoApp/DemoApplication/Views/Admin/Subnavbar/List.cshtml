@@ -23,7 +23,9 @@
                     <thead>
                         <tr>
                             <th>Navbar</th>
-                            <th>SubNavbar</th>
+                            <th>Name</th>
+                            <th>ToUrl</th>
+                            <th>Row</th>
                             <th class="text-end">Actions</th>
 
                         </tr>
@@ -35,8 +37,10 @@
                             <tr>
                                 <td>@subnavbar.Navbar</td>
                                 <td>@subnavbar.Name</td>
+                                <td>@subnavbar.ToUrl</td>
+                                <td>@subnavbar.Row</td>
                                 <td class="text-end">
-                                     <a asp-route="subnavbar-update" asp-route-id="@subnavbar.Id"><i class="las la-pen text-secondary font-16"></i></a>
+                                    <a asp-route="subnavbar-update" asp-route-id="@subnavbar.Id"><i class="las la-pen text-secondary font-16"></i></a>
                                      <form method="POST" asp-route="subnavbar-delete" asp-route-id="@subnavbar.Id" id="subnavbar-form-@subnavbar.Id" ></form>
                                      <button type="submit" form="subnavbar-form-@subnavbar.Id">
                                         <i class="las la-trash-alt text-secondary font-16"></i>

@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <None Include="Views\Client\Home\Index.cshtml" />
+    <None Include="Views\Shared\Components\FooterNav\Index.cshtml" />
+    <None Include="Views\Shared\Components\Navbar\Index.cshtml" />
     <None Include="wwwroot\admin\assets\css\app-dark-rtl.min.css.map" />
     <None Include="wwwroot\admin\assets\css\app-dark.min.css.map" />
     <None Include="wwwroot\admin\assets\css\app-material.min.css.map" />

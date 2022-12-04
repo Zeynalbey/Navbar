@@ -13,7 +13,6 @@ namespace DemoApplication.ViewModels.Admin.Navbar
         public bool IsMain { get; set; }
         public bool IsHeader { get; set; }
         public bool IsFooter { get; set; }
-        public List<SubNavbar> SubNavbars { get; set; }
 
     }
 }
