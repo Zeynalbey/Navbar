@@ -73,14 +73,14 @@ namespace DemoApplication.Controllers.Admin
                 return NotFound();
             }
 
-            var model = new AddviewModel
+            var model = new UpdateViewModel
             {
 
                 Name = subnavbar.Name,
                 ToUrl = subnavbar.ToUrl,
                 NavbarId = subnavbar.NavbarId,
                 Row = subnavbar.Row,
-                Navbars =
+                Navbar =
                     _dataContext.Navbars
                         .Select(n => new SubNavbarViewModel(n.Id, n.Name)).ToList()
             };

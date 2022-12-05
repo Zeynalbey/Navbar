@@ -83,7 +83,7 @@ namespace DemoApplication.Controllers.Admin
                 return NotFound();
             }
 
-            var model = new AddViewModel
+            var model = new NavbarUpdateViewModel
             {
                 Id = navbar.Id,
                 Name = navbar.Name,
@@ -110,22 +110,18 @@ namespace DemoApplication.Controllers.Admin
             }
             var navbar = await _dataContext.Navbars.FirstOrDefaultAsync(b => b.Id == model.Id);
 
-            UpdateNavbarAsync();
+            navbar.Name = model.Name;
+            navbar.IsMain = model.IsMain;
+            navbar.IsHeader = model.IsHeader;
+            navbar.IsFooter = model.IsFooter;
+            navbar.Row = model.Row;
+
+            _dataContext.Navbars.Update(navbar);
+
+            _dataContext.SaveChanges();
+
 
             return RedirectToRoute("Navbar-list");
-
-            async Task UpdateNavbarAsync()
-            {
-                navbar.Name = model.Name;
-                navbar.IsMain = model.IsMain;
-                navbar.IsHeader = model.IsHeader;
-                navbar.IsFooter = model.IsFooter;
-                navbar.Row = model.Row;
-
-                _dataContext.Navbars.Add(navbar);
-
-                _dataContext.SaveChanges();
-            }
         }
 
         #endregion
