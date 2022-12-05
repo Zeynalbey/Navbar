@@ -85,7 +85,7 @@ namespace DemoApplication.Controllers.Admin
                         .Select(n => new SubNavbarViewModel(n.Id, n.Name)).ToList()
             };
 
-            return RedirectToRoute("subnavbar-update");
+            return View("~/Views/Admin/SUbnavbar/Update.cshtml", model);
         }
 
         [HttpPost("update/{id}", Name = "subnavbar-update")]
